@@ -102,9 +102,7 @@ export default class SideMenu extends React.Component {
     };
 
     this.state.left.addListener(({value}) => this.props.onSliding(Math.abs((value - this.state.hiddenMenuOffset) / (this.state.openMenuOffset - this.state.hiddenMenuOffset))));
-  }
 
-  componentWillMount(): void {
     this.responder = PanResponder.create({
       onStartShouldSetResponderCapture: this.onStartShouldSetResponderCapture,
       onMoveShouldSetPanResponder: this.onMoveShouldSetPanResponder,
@@ -114,9 +112,9 @@ export default class SideMenu extends React.Component {
     });
   }
 
-  componentWillReceiveProps(props: Props): void {
-    if (typeof props.isOpen !== 'undefined' && this.isOpen !== props.isOpen && (props.autoClosing || this.isOpen === false)) {
-      this.openMenu(props.isOpen);
+  componentDidUpdate(prevProps: Props): void {
+    if (prevProps != this.props && typeof this.props.isOpen !== 'undefined' && this.isOpen !== this.props.isOpen && (this.props.autoClosing || this.isOpen === false)) {
+      this.openMenu(this.props.isOpen);
     }
   }
 
